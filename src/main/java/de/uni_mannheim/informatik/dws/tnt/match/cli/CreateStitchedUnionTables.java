@@ -107,7 +107,7 @@ public class CreateStitchedUnionTables extends Executable {
 		System.err.println("Done.");
 	}
 	
-	private Processable<Correspondence<MatchableTableColumn, Matchable>> runTableMatching(WebTables web) throws Exception {
+	public Processable<Correspondence<MatchableTableColumn, Matchable>> runTableMatching(WebTables web) throws Exception {
 		TableToTableMatcher matcher = null;
 		
     	switch(this.matcher) {

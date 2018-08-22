@@ -19,13 +19,7 @@ package de.uni_mannheim.informatik.dws.tnt.match.stitching;
 
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import de.uni_mannheim.informatik.dws.tnt.match.ContextColumns;
 import de.uni_mannheim.informatik.dws.tnt.match.SpecialColumns;
@@ -134,7 +128,7 @@ public class UnionTables {
     	}
 
     	// print the schema statistics to the console
-    	stat.printSchemaList();
+    	//stat.printSchemaList();
 		
     	/***********************************************
     	 * Create Union Tables (Data)
@@ -163,8 +157,20 @@ public class UnionTables {
 							int extraColumns = contextAttributes.size();
 							
 							if(!SpecialColumns.isSpecialColumn(c) && !ContextColumns.isContextColumn(c)) {
-								TableColumn c2 = t.getSchema().get(c.getColumnIndex() - extraColumns);
-								c.addProvenanceForColumn(c2);
+								try {
+									TableColumn c2 = t.getSchema().get(c.getColumnIndex() - extraColumns);
+									c.addProvenanceForColumn(c2);
+								} catch (IndexOutOfBoundsException e) {
+									System.out.println("Error found in table " + t.getPath());
+									System.out.println("Extra Columns: " + extraColumns);
+									System.out.println("Column index C: " + c.getColumnIndex());
+									System.out.println("Columns: " + t.getSchema().getSize());
+									System.out.println();
+									Arrays.asList(t.getColumns().toArray()).forEach(System.out::println);
+									System.out.println();
+									Arrays.asList(union.getColumns().toArray()).forEach(System.out::println);
+									System.exit(1003);
+								}
 							}
 						}
 						

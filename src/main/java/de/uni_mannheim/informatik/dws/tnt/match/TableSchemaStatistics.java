@@ -297,7 +297,7 @@ public class TableSchemaStatistics  extends Executable {
 			}
 			first = false;
 			
-			sb.append(col.getHeader());
+			sb.append("\"" + col.getHeader() + "\"");
 		}
 		
 		return sb.toString();
